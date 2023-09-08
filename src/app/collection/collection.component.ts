@@ -1,11 +1,5 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-interface Collection {
-  type: 'Folder' | 'File';
-  name: string;
-  children: Collection[];
-}
+import { Component, Input } from '@angular/core';
+import { Collection } from '../models/collection.model';
 
 @Component({
   selector: 'app-collection',
@@ -13,32 +7,22 @@ interface Collection {
   styleUrls: ['./collection.component.scss'],
 })
 export class CollectionComponent {
-  createFolderFileForm!: FormGroup;
-  collectionData: Collection[] = [];
+  @Input() collectionData: Collection[] = [];
   isAdd = false;
-  constructor(private fb: FormBuilder) {}
-  ngOnInit() {
-    this.createFolderFileForm = this.fb.group({
-      name: ['', Validators.required],
-    });
-  }
+  isAddClicked = false;
 
-  add() {
-    this.isAdd = true;
-  }
-
-  onSubmit() {
-    this.isAdd = false;
-    console.log(this.createFolderFileForm.get('name')?.value);
-    this.collectionData.push({
+  // adds child folder or file; functionality not completed; currently only adds file-folder option
+  onAddChild(item: Collection): void {
+    item.children?.push({
       type: 'Folder',
-      name: this.createFolderFileForm.get('name')?.value,
+      name: 'Folder Children 1.1',
       children: [],
+      isShowFolderFileOption: true,
     });
-    this.createFolderFileForm.get('name')?.setValue('');
   }
 
-  onCancel() {
-    this.isAdd = false;
+  // removes particular item from children array; functionality not completed; currently removes child instead of that particular item
+  onRemove(item: Collection, i: number): void {
+    item.children?.splice(i);
   }
 }
