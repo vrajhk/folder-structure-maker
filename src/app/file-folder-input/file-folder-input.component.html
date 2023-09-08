@@ -1,0 +1,20 @@
+<form [formGroup]="createFolderFileForm" (ngSubmit)="onSubmit()">
+  <img src="assets/folder-icon.png" alt="folder icon" />
+  <div class="form-input">
+    <input
+      type="text"
+      placeholder="Enter Folder Name..."
+      formControlName="name"
+    />
+    <p
+      *ngIf="
+        (createFolderFileForm.touched && createFolderFileForm.invalid) ||
+        (!createFolderFileForm.get('name')?.value.trim().length && isSubmitted)
+      "
+    >
+      Folder name is required
+    </p>
+  </div>
+  <button type="submit" class="create-btn">✔</button>
+  <button type="button" class="cancel-btn" (click)="onCancel()">✖</button>
+</form>

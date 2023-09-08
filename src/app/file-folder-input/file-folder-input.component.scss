@@ -1,0 +1,38 @@
+form {
+  position: absolute;
+  top: 68px;
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 8px;
+  background-color: white;
+  opacity: 0.89;
+  z-index: 1;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .form-input {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    input {
+      padding: 3px;
+    }
+
+    p {
+      color: red;
+      font-size: small;
+      margin: 0;
+    }
+
+    button {
+      padding: 0 3px;
+    }
+  }
+}
