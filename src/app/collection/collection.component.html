@@ -1,12 +1,36 @@
 <ng-container *ngIf="collectionData.length">
-  <div class="structure" *ngFor="let item of collectionData; let i = index">
+  <div class="structure" *ngFor="let item of collectionData; let index = index">
     <div class="content">
       <div
         class="fileFolderSelection"
-        *ngIf="item.isShowFolderFileOption; else displayContent"
+        *ngIf="item.showOptions; else displayContent"
       >
-        <button>File</button>
-        <button>Folder</button>
+        <ng-container *ngIf="item.selectionType; else displayInput">
+          <app-file-folder-input
+            [inputType]="item.selectionType"
+            (onSubmitEvent)="onUserSubmittedForm($event, parent, item)"
+            (onCancelEvent)="onFormCancelled(parent)"
+          ></app-file-folder-input>
+        </ng-container>
+
+        <ng-template #displayInput>
+          <div class="options">
+            <img
+              src="assets/folder-icon.png"
+              class="folder"
+              (click)="triggerInput(item, 'Folder')"
+              alt="Folder Icon"
+            />
+            <span class="file-folder-tooltip folder-tooltip">Add Folder</span>
+            <img
+              class="file"
+              src="assets/file-icon.png"
+              (click)="triggerInput(item, 'File')"
+              alt="File Icon"
+            />
+            <span class="file-folder-tooltip file-tooltip">Add File</span>
+          </div>
+        </ng-template>
       </div>
       <ng-template #displayContent>
         <img
@@ -21,21 +45,29 @@
         <p>
           {{ item.name }}
           <span class="actions"
-            ><button (click)="onAddChild(item)" *ngIf="item.type === 'Folder'">
+            ><button
+              class="folder-dark"
+              (click)="onAddChild(item)"
+              *ngIf="item.type === 'Folder'"
+            >
               +
             </button>
-            <button (click)="onRemove(item, i)">-</button></span
+            <button
+              [ngClass]="item.type === 'Folder' ? 'folder-light' : 'file-dark'"
+              (click)="onRemove(index)"
+            >
+              -
+            </button></span
           >
         </p>
       </ng-template>
     </div>
 
-    <!-- <ng-container *ngIf="item?.children?.length"> -->
     <app-collection
       *ngIf="item.children && item?.children?.length"
       [collectionData]="item.children"
+      [parent]="item"
       class="children"
     ></app-collection>
-    <!-- </ng-container> -->
   </div>
 </ng-container>
