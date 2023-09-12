@@ -1,1 +1,29 @@
-<button class="add-root-folder-btn">Add New Folder</button>
+<button class="add-root-folder-btn" (click)="add()">Add New Folder</button>
+<form *ngIf="isAdd" [formGroup]="createFolderFileForm" (ngSubmit)="onSubmit()">
+  <img src="assets/folder-icon.png" alt="folder icon" />
+  <div class="form-input">
+    <input
+      type="text"
+      placeholder="Enter Folder Name..."
+      formControlName="name"
+    />
+    <p *ngIf="createFolderFileForm.touched && createFolderFileForm.invalid">
+      Folder name is required
+    </p>
+  </div>
+  <button type="submit" class="create-btn">✔</button>
+  <button type="button" class="cancel-btn" (click)="onCancel()">✖</button>
+</form>
+
+<div class="structure" *ngFor="let item of collectionData">
+  <img
+    *ngIf="item.type === 'Folder'"
+    src="assets/folder-icon.png"
+    alt="folder-icon"
+  />
+  <p>{{ item.name }}</p>
+  <div class="actions">
+    <button>+</button>
+    <button>-</button>
+  </div>
+</div>
