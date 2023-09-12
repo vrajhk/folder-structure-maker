@@ -1,5 +1,11 @@
 <div class="container">
-  <button class="add-root-folder-btn" (click)="add()">Add New Folder</button>
+  <button
+    class="add-root-folder-btn"
+    [class.margin-bottom]="isAdd"
+    (click)="add()"
+  >
+    Add New Folder
+  </button>
   <app-file-folder-input
     *ngIf="isAdd"
     [inputType]="'Folder'"

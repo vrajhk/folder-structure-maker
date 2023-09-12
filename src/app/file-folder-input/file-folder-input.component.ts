@@ -13,7 +13,7 @@ export class FileFolderInputComponent {
   @Output() onCancelEvent = new EventEmitter<{ isShowInput: boolean }>();
   createFolderFileForm!: FormGroup;
   isSubmitted = false;
-
+  isCancelled = false;
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class FileFolderInputComponent {
     });
   }
 
-  // sends the input value to add-root-folder component if it is valid
+  // sends the input value to add-root-folder and collection component if it is valid
   onSubmit(): void {
     const inputValue: string = this.createFolderFileForm
       .get('name')
@@ -35,8 +35,9 @@ export class FileFolderInputComponent {
     this.onSubmitEvent.emit(this.createFolderFileForm.get('name')?.value);
   }
 
-  // notifies add-root-folder component about cancel event to hide input
+  // notifies add-root-folder and collection component about cancel event to hide input
   onCancel(): void {
+    this.isCancelled = true;
     this.onCancelEvent.emit({ isShowInput: false });
   }
 }

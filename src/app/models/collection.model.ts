@@ -2,7 +2,9 @@ export interface Collection {
   type: collectionType;
   name: string;
   children?: Collection[];
-  isShowFolderFileOption: boolean;
+  canAddChild: boolean;
+  showOptions: boolean;
+  selectionType: collectionType | null;
 }
 
 export type collectionType = 'Folder' | 'File';

@@ -12,11 +12,14 @@ export class AddRootFolderComponent {
 
   // adds new empty folder to the data array
   onUserSubmittedForm(inputFolderFileValue: string): void {
+    console.log('onUserSubmit');
     this.collectionService.collectionData.push({
       type: 'Folder',
       name: inputFolderFileValue,
       children: [],
-      isShowFolderFileOption: false,
+      canAddChild: true,
+      showOptions: false,
+      selectionType: null,
     });
     this.isAdd = false;
   }

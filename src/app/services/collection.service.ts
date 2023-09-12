@@ -6,9 +6,7 @@ import { Collection } from '../models/collection.model';
 })
 export class CollectionService {
   constructor() {}
-
-  // dummy content for verify purpose
-  collectionData: Collection[] = [
+  dummyContentForTesting: Collection[] = [
     {
       type: 'Folder',
       name: 'Folder 1',
@@ -25,27 +23,39 @@ export class CollectionService {
                   type: 'Folder',
                   name: 'Folder 1.1.1.1',
                   children: [],
-                  isShowFolderFileOption: false,
+                  canAddChild: true,
+                  showOptions: false,
+                  selectionType: null,
                 },
               ],
-              isShowFolderFileOption: false,
+              canAddChild: true,
+              showOptions: false,
+              selectionType: null,
             },
             {
               type: 'Folder',
               name: 'Folder 1.2',
               children: [],
-              isShowFolderFileOption: false,
+              canAddChild: true,
+              showOptions: false,
+              selectionType: null,
             },
           ],
-          isShowFolderFileOption: false,
+          canAddChild: true,
+          showOptions: false,
+          selectionType: null,
         },
         {
           type: 'File',
           name: 'File 1.2',
-          isShowFolderFileOption: false,
+          canAddChild: true,
+          showOptions: false,
+          selectionType: null,
         },
       ],
-      isShowFolderFileOption: false,
+      canAddChild: true,
+      showOptions: false,
+      selectionType: null,
     },
     {
       type: 'Folder',
@@ -55,10 +65,16 @@ export class CollectionService {
           type: 'Folder',
           name: 'Folder 2.1',
           children: [],
-          isShowFolderFileOption: false,
+          canAddChild: true,
+          showOptions: false,
+          selectionType: null,
         },
       ],
-      isShowFolderFileOption: false,
+      canAddChild: true,
+      showOptions: false,
+      selectionType: null,
     },
   ];
+
+  collectionData: Collection[] = this.dummyContentForTesting || [];
 }
