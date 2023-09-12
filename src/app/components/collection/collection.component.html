@@ -1,0 +1,101 @@
+<ng-container *ngIf="collectionData.length">
+  <div class="structure" *ngFor="let item of collectionData; let index = index">
+    <div class="content">
+      <div
+        class="fileFolderSelection"
+        *ngIf="item.showOptions; else displayContent"
+      >
+        <ng-container *ngIf="item.selectionType; else displayOptions">
+          <app-file-folder-input
+            [inputType]="item.selectionType"
+            (onSubmitEvent)="onUserSubmittedForm($event, parent, item)"
+            (onCancelEvent)="onFormCancelled(parent)"
+          ></app-file-folder-input>
+          <div class="icon-with-tooltip">
+            <img
+              class="fileFolderSelection-icons-size back"
+              (click)="takeBackAfterSelection(item)"
+              src="assets/back-icon.png"
+              alt="back button"
+            />
+            <ng-template [ngTemplateOutlet]="backTooltipTemplate"></ng-template>
+          </div>
+        </ng-container>
+
+        <ng-template #displayOptions>
+          <div class="options">
+            <div class="icon-with-tooltip">
+              <img
+                src="assets/folder-icon.png"
+                class="fileFolderSelection-icons-size folder"
+                (click)="triggerInput(item, 'Folder')"
+                alt="Folder Icon"
+              />
+              <span class="file-folder-tooltip folder-tooltip">Add Folder</span>
+            </div>
+            <div class="icon-with-tooltip">
+              <img
+                class="fileFolderSelection-icons-size file"
+                src="assets/file-icon.png"
+                (click)="triggerInput(item, 'File')"
+                alt="File Icon"
+              />
+              <span class="file-folder-tooltip file-tooltip">Add File</span>
+            </div>
+            <div class="icon-with-tooltip">
+              <img
+                class="fileFolderSelection-icons-size back"
+                (click)="onFormCancelled(parent)"
+                src="assets/back-icon.png"
+                alt="back button"
+              />
+              <ng-template
+                [ngTemplateOutlet]="backTooltipTemplate"
+              ></ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #displayContent>
+        <img
+          *ngIf="item.type === 'Folder'; else displayFileIcon"
+          src="assets/folder-icon.png"
+          alt="folder-icon"
+        />
+        <ng-template #displayFileIcon>
+          <img src="assets/file-icon.png" alt="file-icon" />
+        </ng-template>
+
+        <p>
+          {{ item.name }}
+          <span class="actions"
+            ><button
+              class="folder-dark"
+              (click)="onAddChild(item)"
+              *ngIf="item.type === 'Folder'"
+            >
+              +
+            </button>
+            <button
+              [ngClass]="item.type === 'Folder' ? 'folder-light' : 'file-dark'"
+              (click)="onRemove(index)"
+            >
+              -
+            </button></span
+          >
+        </p>
+      </ng-template>
+    </div>
+
+    <app-collection
+      *ngIf="item.children && item?.children?.length"
+      [collectionData]="item.children"
+      [parent]="item"
+      class="children"
+    ></app-collection>
+  </div>
+</ng-container>
+
+<ng-template #backTooltipTemplate>
+  <span class="back-tooltip">Go Back</span>
+</ng-template>

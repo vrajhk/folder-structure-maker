@@ -10,17 +10,15 @@
 
   <div class="form-input">
     <input
-      appAutofocus
       type="text"
       placeholder="Enter {{ inputType }} Name..."
       formControlName="name"
     />
     <p
       *ngIf="
-        (isCancelled &&
-          createFolderFileForm.touched &&
-          createFolderFileForm.invalid) ||
-        (!createFolderFileForm.get('name')?.value.trim().length && isSubmitted)
+        (createFolderFileForm.get('name')?.touched ||
+          createFolderFileForm.get('name')?.dirty) &&
+        createFolderFileForm.get('name')?.invalid
       "
     >
       {{ inputType }} name is required
