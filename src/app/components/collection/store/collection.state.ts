@@ -1,5 +1,5 @@
 import { Collection } from '../../../models/collection.model';
 
-export interface collectionState {
+export interface CollectionState {
   data: Collection[];
 }

@@ -27,7 +27,7 @@
     height: 28px;
     width: 310px;
 
-    .fileFolderSelection {
+    .file-folder-selection {
       width: 100%;
       display: flex;
       align-items: center;
@@ -88,6 +88,45 @@
       }
     }
 
+    .child-info {
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      .child-info-content {
+        display: flex;
+        align-items: center;
+        img {
+          width: 24px;
+          padding: 2px;
+        }
+
+        .folder,
+        .file {
+          position: relative;
+          span {
+            position: absolute;
+            bottom: 21px;
+            left: 14px;
+            width: 15px;
+            height: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border-radius: 50%;
+            background-color: #0277bd;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .show-hide-child-icon {
+      height: 15px;
+      width: 15px;
+    }
+
     .options {
       display: flex;
       gap: 8px;
@@ -99,7 +138,7 @@
     margin-top: 50px;
   }
 
-  .fileFolderSelection-icons-size {
+  .file-folder-selection-icons-size {
     width: 24px;
     height: 24px;
     padding: 2px;

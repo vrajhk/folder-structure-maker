@@ -14,7 +14,10 @@ export class LayoutComponent {
   ngOnInit() {
     this.store
       .select(CollectionSelector)
-      .subscribe((collection) => (this.collectionData = collection));
+      .subscribe(
+        (collection) =>
+          (this.collectionData = JSON.parse(JSON.stringify(collection)))
+      );
   }
   parent: Collection | null = null; // parent===null represents "root" folder
 }

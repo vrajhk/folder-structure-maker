@@ -2,7 +2,7 @@
   <div class="structure" *ngFor="let item of collectionData; let index = index">
     <div class="content">
       <div
-        class="fileFolderSelection"
+        class="file-folder-selection"
         *ngIf="item.showOptions; else displayContent"
       >
         <ng-container *ngIf="item.selectionType; else displayOptions">
@@ -13,7 +13,7 @@
           ></app-file-folder-input>
           <div class="icon-with-tooltip">
             <img
-              class="fileFolderSelection-icons-size back"
+              class="file-folder-selection-icons-size back"
               (click)="takeBackAfterSelection(item)"
               src="assets/back-icon.png"
               alt="back button"
@@ -27,7 +27,7 @@
             <div class="icon-with-tooltip">
               <img
                 src="assets/folder-icon.png"
-                class="fileFolderSelection-icons-size folder"
+                class="file-folder-selection-icons-size folder"
                 (click)="triggerInput(item, 'Folder')"
                 alt="Folder Icon"
               />
@@ -35,7 +35,7 @@
             </div>
             <div class="icon-with-tooltip">
               <img
-                class="fileFolderSelection-icons-size file"
+                class="file-folder-selection-icons-size file"
                 src="assets/file-icon.png"
                 (click)="triggerInput(item, 'File')"
                 alt="File Icon"
@@ -44,7 +44,7 @@
             </div>
             <div class="icon-with-tooltip">
               <img
-                class="fileFolderSelection-icons-size back"
+                class="file-folder-selection-icons-size back"
                 (click)="onFormCancelled(parent)"
                 src="assets/back-icon.png"
                 alt="back button"
@@ -78,21 +78,52 @@
             </button>
             <button
               [ngClass]="item.type === 'Folder' ? 'folder-light' : 'file-dark'"
-              (click)="onRemove(index)"
+              (click)="onRemove(index, item.type)"
             >
               -
             </button></span
           >
         </p>
+        <img
+          class="show-hide-child-icon"
+          *ngIf="item.type === 'Folder' && !item.minimizeChildren"
+          src="assets/below.png"
+          alt="show-hide-child"
+          (click)="minimizeChildren(item)"
+        />
+
+        <div
+          class="child-info"
+          *ngIf="item.type === 'Folder' && item.minimizeChildren"
+        >
+          <img
+            src="assets/next.svg"
+            alt="show-hide-child"
+            class="show-hide-child-icon"
+            (click)="minimizeChildren(item)"
+          />
+          <div class="child-info-content">
+            <div class="folder">
+              <img src="assets/folder-icon.png" alt="folder-icon" />
+              <span>{{ item.folderCount }}</span>
+            </div>
+            <div class="file">
+              <img src="assets/file-icon.png" alt="file-icon" />
+              <span>{{ item.fileCount }}</span>
+            </div>
+          </div>
+        </div>
       </ng-template>
     </div>
 
-    <app-collection
-      *ngIf="item.children && item?.children?.length"
-      [collectionData]="item.children"
-      [parent]="item"
-      class="children"
-    ></app-collection>
+    <ng-container *ngIf="!item.minimizeChildren">
+      <app-collection
+        *ngIf="item.children && item?.children?.length"
+        [collectionData]="item.children"
+        [parent]="item"
+        class="children"
+      ></app-collection>
+    </ng-container>
   </div>
 </ng-container>
 

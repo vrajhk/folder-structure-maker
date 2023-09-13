@@ -8,7 +8,8 @@ describe('LayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutComponent]
+      declarations: [LayoutComponent],
+      providers: [],
     });
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;

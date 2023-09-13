@@ -22,6 +22,9 @@ export class AddRootFolderComponent {
           canAddChild: true,
           showOptions: false,
           selectionType: null,
+          minimizeChildren: false,
+          folderCount: 0,
+          fileCount: 0,
         },
       })
     );
