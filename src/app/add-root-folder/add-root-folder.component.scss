@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+  .add-root-folder-btn {
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: small;
+    margin-top: 23px;
+    transition: all ease 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      color: black;
+      background-color: white;
+      border-radius: 1px solid black;
+    }
+  }
+}
+
+.margin-bottom {
+  margin-bottom: 10px;
+}

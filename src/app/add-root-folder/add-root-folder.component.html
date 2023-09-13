@@ -1,0 +1,15 @@
+<div class="container">
+  <button
+    class="add-root-folder-btn"
+    [class.margin-bottom]="isAdd"
+    (click)="add()"
+  >
+    Add New Folder
+  </button>
+  <app-file-folder-input
+    *ngIf="isAdd"
+    [inputType]="'Folder'"
+    (onSubmitEvent)="onUserSubmittedForm($event)"
+    (onCancelEvent)="onFormCancelled($event)"
+  ></app-file-folder-input>
+</div>

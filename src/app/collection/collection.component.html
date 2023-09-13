@@ -1,29 +1,73 @@
-<button class="add-root-folder-btn" (click)="add()">Add New Folder</button>
-<form *ngIf="isAdd" [formGroup]="createFolderFileForm" (ngSubmit)="onSubmit()">
-  <img src="assets/folder-icon.png" alt="folder icon" />
-  <div class="form-input">
-    <input
-      type="text"
-      placeholder="Enter Folder Name..."
-      formControlName="name"
-    />
-    <p *ngIf="createFolderFileForm.touched && createFolderFileForm.invalid">
-      Folder name is required
-    </p>
-  </div>
-  <button type="submit" class="create-btn">✔</button>
-  <button type="button" class="cancel-btn" (click)="onCancel()">✖</button>
-</form>
+<ng-container *ngIf="collectionData.length">
+  <div class="structure" *ngFor="let item of collectionData; let index = index">
+    <div class="content">
+      <div
+        class="fileFolderSelection"
+        *ngIf="item.showOptions; else displayContent"
+      >
+        <ng-container *ngIf="item.selectionType; else displayInput">
+          <app-file-folder-input
+            [inputType]="item.selectionType"
+            (onSubmitEvent)="onUserSubmittedForm($event, parent, item)"
+            (onCancelEvent)="onFormCancelled(parent)"
+          ></app-file-folder-input>
+        </ng-container>
 
-<div class="structure" *ngFor="let item of collectionData">
-  <img
-    *ngIf="item.type === 'Folder'"
-    src="assets/folder-icon.png"
-    alt="folder-icon"
-  />
-  <p>{{ item.name }}</p>
-  <div class="actions">
-    <button>+</button>
-    <button>-</button>
+        <ng-template #displayInput>
+          <div class="options">
+            <img
+              src="assets/folder-icon.png"
+              class="folder"
+              (click)="triggerInput(item, 'Folder')"
+              alt="Folder Icon"
+            />
+            <span class="file-folder-tooltip folder-tooltip">Add Folder</span>
+            <img
+              class="file"
+              src="assets/file-icon.png"
+              (click)="triggerInput(item, 'File')"
+              alt="File Icon"
+            />
+            <span class="file-folder-tooltip file-tooltip">Add File</span>
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #displayContent>
+        <img
+          *ngIf="item.type === 'Folder'; else displayFileIcon"
+          src="assets/folder-icon.png"
+          alt="folder-icon"
+        />
+        <ng-template #displayFileIcon>
+          <img src="assets/file-icon.png" alt="file-icon" />
+        </ng-template>
+
+        <p>
+          {{ item.name }}
+          <span class="actions"
+            ><button
+              class="folder-dark"
+              (click)="onAddChild(item)"
+              *ngIf="item.type === 'Folder'"
+            >
+              +
+            </button>
+            <button
+              [ngClass]="item.type === 'Folder' ? 'folder-light' : 'file-dark'"
+              (click)="onRemove(index)"
+            >
+              -
+            </button></span
+          >
+        </p>
+      </ng-template>
+    </div>
+
+    <app-collection
+      *ngIf="item.children && item?.children?.length"
+      [collectionData]="item.children"
+      [parent]="item"
+      class="children"
+    ></app-collection>
   </div>
-</div>
+</ng-container>
