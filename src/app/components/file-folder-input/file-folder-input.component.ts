@@ -5,7 +5,9 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { collectionType } from 'src/app/models/collection.model';
+import { CollectionType } from 'src/app/models/collection.model';
+import { Subscription } from 'rxjs';
+import { CollectionService } from '../collection/service/collection.service';
 
 @Component({
   selector: 'app-file-folder-input',
@@ -13,16 +15,26 @@ import { collectionType } from 'src/app/models/collection.model';
   styleUrls: ['./file-folder-input.component.scss'],
 })
 export class FileFolderInputComponent {
-  @Input() inputType!: collectionType;
+  @Input() inputType!: CollectionType;
   @Output() onSubmitEvent = new EventEmitter<string>();
   @Output() onCancelEvent = new EventEmitter<{ isShowInput: boolean }>();
   createFolderFileForm!: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  duplicateNameError: null | boolean = null;
+  subscription!: Subscription;
+  constructor(
+    private fb: FormBuilder,
+    private collectionService: CollectionService
+  ) {}
 
   ngOnInit() {
     this.createFolderFileForm = this.fb.group({
       name: ['', [Validators.required, this.spaceValidator]],
     });
+    this.subscription = this.collectionService.sendDuplicateNameError.subscribe(
+      (errorResponse) => {
+        this.duplicateNameError = errorResponse.error;
+      }
+    );
   }
 
   // throws validation error is user tries to submit only spaces and no characters in Input
@@ -45,5 +57,9 @@ export class FileFolderInputComponent {
   // notifies add-root-folder and collection component about cancel event to hide input
   onCancel(): void {
     this.onCancelEvent.emit({ isShowInput: false });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

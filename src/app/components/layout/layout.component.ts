@@ -19,5 +19,5 @@ export class LayoutComponent {
           (this.collectionData = JSON.parse(JSON.stringify(collection)))
       );
   }
-  parent: Collection | null = null; // parent===null represents "root" folder
+  parent!: Collection; // parent===null represents "root" folder
 }

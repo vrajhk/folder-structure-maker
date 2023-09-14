@@ -54,9 +54,9 @@
       }
 
       &:hover .actions {
-        display: block;
         display: flex;
-        gap: 4px;
+        gap: 6px;
+        align-items: center;
 
         button {
           display: flex;

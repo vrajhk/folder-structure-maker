@@ -23,6 +23,7 @@
     >
       {{ inputType }} name is required
     </p>
+    <p *ngIf="duplicateNameError">{{ inputType }} name already exist!</p>
   </div>
   <button type="submit" class="create-btn">✔</button>
   <button type="button" class="cancel-btn" (click)="onCancel()">✖</button>

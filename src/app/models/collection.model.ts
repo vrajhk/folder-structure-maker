@@ -1,13 +1,13 @@
 export interface Collection {
-  type: collectionType;
+  type: CollectionType;
   name: string;
   children?: Collection[];
   canAddChild?: boolean;
   showOptions?: boolean;
-  selectionType?: collectionType | null;
+  selectionType?: CollectionType | null;
   minimizeChildren?: boolean;
   folderCount?: number;
   fileCount?: number;
 }
 
-export type collectionType = 'Folder' | 'File';
+export type CollectionType = 'Folder' | 'File';

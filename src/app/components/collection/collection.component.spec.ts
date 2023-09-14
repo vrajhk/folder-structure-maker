@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CollectionComponent } from './collection.component';
-import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CollectionComponent', () => {
   let component: CollectionComponent;
@@ -10,7 +9,7 @@ describe('CollectionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CollectionComponent],
-      imports: [Store],
+      providers: [provideMockStore()],
     });
     fixture = TestBed.createComponent(CollectionComponent);
     component = fixture.componentInstance;

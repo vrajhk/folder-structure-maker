@@ -68,8 +68,8 @@
 
         <p>
           {{ item.name }}
-          <span class="actions"
-            ><button
+          <span class="actions">
+            <button
               class="folder-dark"
               (click)="onAddChild(item)"
               *ngIf="item.type === 'Folder'"
@@ -81,16 +81,20 @@
               (click)="onRemove(index, item.type)"
             >
               -
-            </button></span
-          >
+            </button>
+            <img
+              class="show-hide-child-icon"
+              *ngIf="
+                item.type === 'Folder' &&
+                item.children?.length &&
+                !item.minimizeChildren
+              "
+              src="assets/below.png"
+              alt="show-hide-child"
+              (click)="minimizeChildren(item)"
+            />
+          </span>
         </p>
-        <img
-          class="show-hide-child-icon"
-          *ngIf="item.type === 'Folder' && !item.minimizeChildren"
-          src="assets/below.png"
-          alt="show-hide-child"
-          (click)="minimizeChildren(item)"
-        />
 
         <div
           class="child-info"

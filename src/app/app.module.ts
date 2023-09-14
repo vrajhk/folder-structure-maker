@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { AppComponent } from './app.component';
 import { AppReducer } from './store/app.reducer';
 import { AddRootFolderComponent } from './components/add-root-folder/add-root-folder.component';
 import { CollectionComponent } from './components/collection/collection.component';
@@ -28,7 +29,7 @@ import { LayoutComponent } from './components/layout/layout.component';
       maxAge: 25,
     }),
   ],
-  providers: [],
+  providers: [CollectionComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
