@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Collection, collectionType } from '../models/collection.model';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { Collection, collectionType } from 'src/app/models/collection.model';
 
 @Component({
   selector: 'app-collection',
@@ -13,6 +13,11 @@ export class CollectionComponent {
   // sets item's select type and trigger it on UI
   triggerInput(item: Collection, type: collectionType) {
     item.selectionType = type;
+  }
+
+  // triggers file-folder option selection again
+  takeBackAfterSelection(item: Collection) {
+    item.selectionType = null;
   }
 
   // after user submits the form input(separate component), set the added item's property
@@ -35,19 +40,20 @@ export class CollectionComponent {
 
   // if one dummy child is already added, then no need to add another just return; else; add
   onAddChild(item: Collection): void {
+    item = JSON.parse(JSON.stringify(item));
     if (!item.canAddChild) {
       return;
     }
     // else; push dummy child for showing file-folder select option and later apply necessary changes through "onUserSubmittedForm()"
     item.children?.push({
       type: 'Folder',
-      name: 'Dummy',
+      name: '',
       children: [],
       showOptions: true,
       selectionType: null,
       canAddChild: true,
     });
-    item.canAddChild = true;
+    item.canAddChild = false;
   }
 
   // removes particular item from parent array

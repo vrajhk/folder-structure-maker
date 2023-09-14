@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { CollectionService } from '../services/collection.service';
+import { Store } from '@ngrx/store';
+import * as CollectionActions from '../collection/store/collection.actions';
 
 @Component({
   selector: 'app-add-root-folder',
@@ -7,20 +8,24 @@ import { CollectionService } from '../services/collection.service';
   styleUrls: ['./add-root-folder.component.scss'],
 })
 export class AddRootFolderComponent {
-  constructor(private collectionService: CollectionService) {}
+  constructor(private store: Store) {}
   isAdd = false; // to show/hide file-folder input
 
   // adds new empty folder to the data array
   onUserSubmittedForm(inputFolderFileValue: string): void {
-    console.log('onUserSubmit');
-    this.collectionService.collectionData.push({
-      type: 'Folder',
-      name: inputFolderFileValue,
-      children: [],
-      canAddChild: true,
-      showOptions: false,
-      selectionType: null,
-    });
+    this.store.dispatch(
+      CollectionActions.addToRoot({
+        item: {
+          type: 'Folder',
+          name: inputFolderFileValue,
+          children: [],
+          canAddChild: true,
+          showOptions: false,
+          selectionType: null,
+        },
+      })
+    );
+
     this.isAdd = false;
   }
 
