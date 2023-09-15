@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as CollectionActions from '../collection/store/collection.actions';
-import { Collection } from 'src/app/models/collection.model';
+import {
+  Collection,
+  CollectionTypeEnum,
+} from 'src/app/models/collection.model';
 import { CollectionSelector } from '../collection/store/collection.selectors';
 import { CollectionService } from '../collection/service/collection.service';
 
@@ -16,10 +19,12 @@ export class AddRootFolderComponent {
     private collectionService: CollectionService
   ) {}
   ngOnInit() {
+    console.log('onInit');
     this.store
       .select(CollectionSelector)
       .subscribe((collectionData) => (this.rootCollection = collectionData));
   }
+  folderType = CollectionTypeEnum.folder;
   isAdd = false; // to show/hide file-folder input
   rootCollection!: Collection[];
 
@@ -33,7 +38,7 @@ export class AddRootFolderComponent {
     this.store.dispatch(
       CollectionActions.addToRoot({
         item: {
-          type: 'Folder',
+          type: CollectionTypeEnum.folder,
           name: inputFolderName,
           children: [],
           canAddChild: true,

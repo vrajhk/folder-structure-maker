@@ -28,7 +28,7 @@
               <img
                 src="assets/folder-icon.png"
                 class="file-folder-selection-icons-size folder"
-                (click)="triggerInput(item, 'Folder')"
+                (click)="triggerInput(item, folderType)"
                 alt="Folder Icon"
               />
               <span class="file-folder-tooltip folder-tooltip">Add Folder</span>
@@ -37,7 +37,7 @@
               <img
                 class="file-folder-selection-icons-size file"
                 src="assets/file-icon.png"
-                (click)="triggerInput(item, 'File')"
+                (click)="triggerInput(item, fileType)"
                 alt="File Icon"
               />
               <span class="file-folder-tooltip file-tooltip">Add File</span>
@@ -58,7 +58,7 @@
       </div>
       <ng-template #displayContent>
         <img
-          *ngIf="item.type === 'Folder'; else displayFileIcon"
+          *ngIf="item.type === folderType; else displayFileIcon"
           src="assets/folder-icon.png"
           alt="folder-icon"
         />
@@ -72,12 +72,14 @@
             <button
               class="folder-dark"
               (click)="onAddChild(item)"
-              *ngIf="item.type === 'Folder'"
+              *ngIf="item.type === folderType"
             >
               +
             </button>
             <button
-              [ngClass]="item.type === 'Folder' ? 'folder-light' : 'file-dark'"
+              [ngClass]="
+                item.type === folderType ? 'folder-light' : 'file-dark'
+              "
               (click)="onRemove(index, item.type)"
             >
               -
@@ -85,7 +87,7 @@
             <img
               class="show-hide-child-icon"
               *ngIf="
-                item.type === 'Folder' &&
+                item.type === folderType &&
                 item.children?.length &&
                 !item.minimizeChildren
               "
@@ -98,7 +100,7 @@
 
         <div
           class="child-info"
-          *ngIf="item.type === 'Folder' && item.minimizeChildren"
+          *ngIf="item.type === folderType && item.minimizeChildren"
         >
           <img
             src="assets/next.svg"

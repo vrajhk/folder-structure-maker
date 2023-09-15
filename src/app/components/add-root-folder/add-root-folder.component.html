@@ -8,7 +8,7 @@
   </button>
   <app-file-folder-input
     *ngIf="isAdd"
-    [inputType]="'Folder'"
+    [inputType]="folderType"
     (onSubmitEvent)="onUserSubmittedForm($event)"
     (onCancelEvent)="onFormCancelled($event)"
   ></app-file-folder-input>

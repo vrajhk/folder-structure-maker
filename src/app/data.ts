@@ -1,20 +1,20 @@
-import { Collection } from './models/collection.model';
+import { Collection, CollectionTypeEnum } from './models/collection.model';
 
 export const data: Collection[] = [
   {
-    type: 'Folder',
+    type: CollectionTypeEnum.folder,
     name: 'Folder 1',
     children: [
       {
-        type: 'Folder',
+        type: CollectionTypeEnum.folder,
         name: 'Folder 1.1',
         children: [
           {
-            type: 'Folder',
+            type: CollectionTypeEnum.folder,
             name: 'Folder 1.1.1',
             children: [
               {
-                type: 'Folder',
+                type: CollectionTypeEnum.folder,
                 name: 'Folder 1.1.1.1',
                 children: [],
                 canAddChild: true,
@@ -33,7 +33,7 @@ export const data: Collection[] = [
             fileCount: 0,
           },
           {
-            type: 'Folder',
+            type: CollectionTypeEnum.folder,
             name: 'Folder 1.2',
             children: [],
             canAddChild: true,
@@ -52,7 +52,7 @@ export const data: Collection[] = [
         fileCount: 0,
       },
       {
-        type: 'File',
+        type: CollectionTypeEnum.file,
         name: 'File 1.2',
         canAddChild: true,
         showOptions: false,
@@ -67,11 +67,11 @@ export const data: Collection[] = [
     fileCount: 1,
   },
   {
-    type: 'Folder',
+    type: CollectionTypeEnum.folder,
     name: 'Folder 2',
     children: [
       {
-        type: 'Folder',
+        type: CollectionTypeEnum.folder,
         name: 'Folder 2.1',
         children: [],
         canAddChild: true,
@@ -82,7 +82,7 @@ export const data: Collection[] = [
         fileCount: 0,
       },
       {
-        type: 'File',
+        type: CollectionTypeEnum.file,
         name: 'File 2.1',
       },
     ],

@@ -9,5 +9,10 @@ export interface Collection {
   folderCount?: number;
   fileCount?: number;
 }
-
-export type CollectionType = 'Folder' | 'File';
+export const enum CollectionTypeEnum {
+  folder = 'Folder',
+  file = 'File',
+}
+export type CollectionType =
+  | CollectionTypeEnum.folder
+  | CollectionTypeEnum.file;

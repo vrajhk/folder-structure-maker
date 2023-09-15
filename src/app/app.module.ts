@@ -29,7 +29,7 @@ import { LayoutComponent } from './components/layout/layout.component';
       maxAge: 25,
     }),
   ],
-  providers: [CollectionComponent],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
