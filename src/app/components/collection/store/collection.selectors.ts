@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { collectionState } from './collection.state';
+import { CollectionState } from './collection.state';
 
-const getCollectionState = createFeatureSelector<collectionState>('collection');
+const getCollectionState = createFeatureSelector<CollectionState>('collection');
 export const CollectionSelector = createSelector(
   getCollectionState,
   (state) => state.data
