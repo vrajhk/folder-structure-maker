@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FileFolderInputComponent } from './file-folder-input.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CollectionComponent } from '../collection/collection.component';
 
 describe('FileFolderInputComponent', () => {
   let component: FileFolderInputComponent;
@@ -8,7 +10,9 @@ describe('FileFolderInputComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FileFolderInputComponent]
+      declarations: [FileFolderInputComponent],
+      imports: [ReactiveFormsModule],
+      providers: [CollectionComponent],
     });
     fixture = TestBed.createComponent(FileFolderInputComponent);
     component = fixture.componentInstance;

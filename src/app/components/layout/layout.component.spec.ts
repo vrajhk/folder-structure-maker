@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutComponent } from './layout.component';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AddRootFolderComponent } from '../add-root-folder/add-root-folder.component';
+import { CollectionComponent } from '../collection/collection.component';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -8,8 +11,12 @@ describe('LayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutComponent],
-      providers: [],
+      declarations: [
+        LayoutComponent,
+        AddRootFolderComponent,
+        CollectionComponent,
+      ],
+      providers: [provideMockStore()],
     });
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;

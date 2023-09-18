@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideMockStore } from '@ngrx/store/testing';
 import { AddRootFolderComponent } from './add-root-folder.component';
 
 describe('AddRootFolderComponent', () => {
@@ -8,7 +8,8 @@ describe('AddRootFolderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AddRootFolderComponent]
+      declarations: [AddRootFolderComponent],
+      providers: [provideMockStore()],
     });
     fixture = TestBed.createComponent(AddRootFolderComponent);
     component = fixture.componentInstance;

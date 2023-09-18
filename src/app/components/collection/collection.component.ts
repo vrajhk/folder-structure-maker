@@ -1,7 +1,8 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Collection, collectionType } from 'src/app/models/collection.model';
+import { Collection, CollectionType } from 'src/app/models/collection.model';
 import * as CollectionActions from '../collection/store/collection.actions';
+import { CollectionService } from './service/collection.service';
 
 @Component({
   selector: 'app-collection',
@@ -10,12 +11,15 @@ import * as CollectionActions from '../collection/store/collection.actions';
 })
 export class CollectionComponent {
   @Input() collectionData: Collection[] = [];
-  @Input() parent: Collection | null = null; // parent===null represents "root" folder
+  @Input() parent!: Collection;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private collectionService: CollectionService
+  ) {}
 
   // sets item's select type and trigger it on UI
-  triggerInput(item: Collection, type: collectionType) {
+  triggerInput(item: Collection, type: CollectionType) {
     item.selectionType = type;
   }
 
@@ -24,32 +28,34 @@ export class CollectionComponent {
     item.selectionType = null;
   }
 
-  // after user submits the form input(separate component), set the added item's property
-  onUserSubmittedForm(
-    name: string,
-    parent: Collection | null,
-    item: Collection
-  ) {
+  // after user submits the form input(separate component), check if the respective Folder/File name exist in its row, if yes then notify input of the same and return; else set the added item's property and parent's property required on child addition
+  onUserSubmittedForm(name: string, parent: Collection, item: Collection) {
+    if (
+      parent?.children?.find(
+        (el) => el.name === name && el.type === item.selectionType
+      )
+    ) {
+      // notifies input component
+      this.collectionService.sendErrorAsTrue();
+      return;
+    }
+    // notifies input component
+    this.collectionService.sendErrorAsNull();
     item.showOptions = false;
     item.name = name;
     item.selectionType && (item.type = item.selectionType);
     if (item.type === 'Folder') {
-      (item.minimizeChildren = false),
-        (item.folderCount = 0),
-        (item.fileCount = 0);
+      item.minimizeChildren = false;
+      parent.folderCount !== undefined && parent.folderCount++;
+    } else {
+      parent.fileCount !== undefined && parent.fileCount++;
     }
-    if (parent) {
-      parent.canAddChild = true; // reset canAddChild of it's parent to let parent add another item
-      if (item.type === 'Folder') {
-        parent.folderCount !== undefined && parent.folderCount++;
-      } else {
-        parent.fileCount !== undefined && parent.fileCount++;
-      }
-    }
+    parent.canAddChild = true; // reset canAddChild of it's parent to let parent add another item
   }
 
   // after user cancels the form input(separate component), discard the pushed dummy child from parent and reset isChild for letting user select File/Folder
   onFormCancelled(parent: Collection | null) {
+    this.collectionService.sendErrorAsNull();
     parent?.children?.pop(); //
     parent && (parent.canAddChild = true);
   }
@@ -73,7 +79,7 @@ export class CollectionComponent {
   }
 
   // removes particular item from parent array
-  onRemove(index: number, type: collectionType): void {
+  onRemove(index: number, type: CollectionType): void {
     // if element to be removed is "root" folder, then remove it from whole data i.e. collectionData, else; from its "parent"
     if (this.parent === null) {
       this.store.dispatch(CollectionActions.removeFromRoot({ index }));
