@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   Collection,
   CollectionType,
   CollectionTypeEnum,
 } from 'src/app/models/collection.model';
-import * as CollectionActions from '../collection/store/collection.actions';
 import { CollectionService } from './service/collection.service';
 
 @Component({
@@ -19,10 +17,7 @@ export class CollectionComponent {
   folderType = CollectionTypeEnum.folder;
   fileType = CollectionTypeEnum.file;
 
-  constructor(
-    private store: Store,
-    private collectionService: CollectionService
-  ) {}
+  constructor(private collectionService: CollectionService) {}
 
   // sets item's select type and trigger it on UI
   triggerInput(item: Collection, type: CollectionType) {
@@ -50,7 +45,7 @@ export class CollectionComponent {
     item.showOptions = false;
     item.name = name;
     item.selectionType && (item.type = item.selectionType);
-    if (item.type === 'Folder') {
+    if (item.type === CollectionTypeEnum.folder) {
       item.minimizeChildren = false;
       parent.folderCount !== undefined && parent.folderCount++;
     } else {
@@ -62,7 +57,7 @@ export class CollectionComponent {
   // after user cancels the form input(separate component), discard the pushed dummy child from parent and reset isChild for letting user select File/Folder
   onFormCancelled(parent: Collection | null) {
     this.collectionService.sendErrorAsNull();
-    parent?.children?.pop(); //
+    parent?.children?.pop();
     parent && (parent.canAddChild = true);
   }
 
@@ -86,14 +81,14 @@ export class CollectionComponent {
     item.canAddChild = false;
   }
 
-  // removes particular item from parent array
+  // removes particular item from parent's children array
   onRemove(index: number, type: CollectionType): void {
     // if element to be removed is "root" folder, then remove it from whole data i.e. collectionData, else; from its "parent"
-    if (this.parent === null) {
-      this.store.dispatch(CollectionActions.removeFromRoot({ index }));
+    if (!this.parent) {
+      this.collectionData.splice(index, 1);
     } else {
       this.parent?.children?.splice(index, 1);
-      if (type === 'Folder') {
+      if (type === CollectionTypeEnum.folder) {
         this.parent.folderCount !== undefined && this.parent.folderCount--;
       } else {
         this.parent.fileCount !== undefined && this.parent.fileCount--;

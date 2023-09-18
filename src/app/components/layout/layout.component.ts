@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Collection } from 'src/app/models/collection.model';
-import { CollectionSelector } from '../collection/store/collection.selectors';
+import { CollectionService } from '../collection/service/collection.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,15 +8,12 @@ import { CollectionSelector } from '../collection/store/collection.selectors';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
-  constructor(private store: Store) {}
-  collectionData: Collection[] = [];
+  constructor(private collectionService: CollectionService) {}
   ngOnInit() {
-    this.store
-      .select(CollectionSelector)
-      .subscribe(
-        (collection) =>
-          (this.collectionData = JSON.parse(JSON.stringify(collection)))
-      );
+    this.collectionService.updatedRootCollection$.subscribe(
+      (rootCollection) => (this.collectionData = rootCollection)
+    );
   }
+  collectionData: Collection[] = [];
   parent!: Collection; // parent===null represents "root" folder
 }

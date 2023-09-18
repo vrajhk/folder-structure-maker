@@ -3,7 +3,6 @@ import { LayoutComponent } from './layout.component';
 import { AddRootFolderComponent } from '../add-root-folder/add-root-folder.component';
 import { CollectionComponent } from '../collection/collection.component';
 import { StoreModule } from '@ngrx/store';
-import { AppReducer } from '../../store/app.reducer';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -16,7 +15,6 @@ describe('LayoutComponent', () => {
         AddRootFolderComponent,
         CollectionComponent,
       ],
-      imports: [StoreModule.forRoot(AppReducer)],
     });
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;

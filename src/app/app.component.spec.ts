@@ -9,7 +9,6 @@ import { FileFolderInputComponent } from './components/file-folder-input/file-fo
 import { AddRootFolderComponent } from './components/add-root-folder/add-root-folder.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AppReducer } from './store/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 describe('AppComponent', () => {
@@ -25,15 +24,7 @@ describe('AppComponent', () => {
         AddRootFolderComponent,
         LayoutComponent,
       ],
-      imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        StoreModule.forRoot(AppReducer),
-        StoreDevtoolsModule.instrument({
-          maxAge: 25,
-        }),
-      ],
+      imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
       providers: [],
     }).compileComponents();
   });

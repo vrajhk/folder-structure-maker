@@ -5,7 +5,10 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { CollectionType } from 'src/app/models/collection.model';
+import {
+  CollectionType,
+  CollectionTypeEnum,
+} from 'src/app/models/collection.model';
 import { Subscription } from 'rxjs';
 import { CollectionService } from '../collection/service/collection.service';
 
@@ -18,6 +21,7 @@ export class FileFolderInputComponent {
   @Input() inputType!: CollectionType;
   @Output() onSubmitEvent = new EventEmitter<string>();
   @Output() onCancelEvent = new EventEmitter<{ isShowInput: boolean }>();
+  folderType = CollectionTypeEnum.folder;
   createFolderFileForm!: FormGroup;
   duplicateNameError: null | boolean = null;
   subscription!: Subscription;

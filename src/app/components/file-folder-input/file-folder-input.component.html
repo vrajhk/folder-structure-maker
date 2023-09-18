@@ -1,7 +1,7 @@
 <form [formGroup]="createFolderFileForm" (ngSubmit)="onSubmit()">
   <img
     src="assets/folder-icon.png"
-    *ngIf="inputType === 'Folder'; else displayFileImage"
+    *ngIf="inputType === folderType; else displayFileImage"
     alt="folder icon"
   />
   <ng-template #displayFileImage>
