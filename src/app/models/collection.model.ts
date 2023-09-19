@@ -16,3 +16,5 @@ export const enum CollectionTypeEnum {
 export type CollectionType =
   | CollectionTypeEnum.folder
   | CollectionTypeEnum.file;
+// | 'unset'
+// | null;

@@ -19,4 +19,6 @@ describe('AddRootFolderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should add folder to root if same folder with same name does not exist; else send error flag as true to input component', () => {});
 });
