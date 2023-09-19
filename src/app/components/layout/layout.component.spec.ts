@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LayoutComponent } from './layout.component';
-import { provideMockStore } from '@ngrx/store/testing';
 import { AddRootFolderComponent } from '../add-root-folder/add-root-folder.component';
 import { CollectionComponent } from '../collection/collection.component';
+import { StoreModule } from '@ngrx/store';
+import { AppReducer } from '../../store/app.reducer';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -16,7 +16,7 @@ describe('LayoutComponent', () => {
         AddRootFolderComponent,
         CollectionComponent,
       ],
-      providers: [provideMockStore()],
+      imports: [StoreModule.forRoot(AppReducer)],
     });
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;

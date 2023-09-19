@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Collection, CollectionType } from 'src/app/models/collection.model';
+import {
+  Collection,
+  CollectionType,
+  CollectionTypeEnum,
+} from 'src/app/models/collection.model';
 import * as CollectionActions from '../collection/store/collection.actions';
 import { CollectionService } from './service/collection.service';
 
@@ -12,6 +16,8 @@ import { CollectionService } from './service/collection.service';
 export class CollectionComponent {
   @Input() collectionData: Collection[] = [];
   @Input() parent!: Collection;
+  folderType = CollectionTypeEnum.folder;
+  fileType = CollectionTypeEnum.file;
 
   constructor(
     private store: Store,
@@ -68,12 +74,14 @@ export class CollectionComponent {
     item.minimizeChildren = false;
     // else; push dummy child for showing file-folder select option and later apply necessary changes through "onUserSubmittedForm()"
     item.children?.push({
-      type: 'Folder',
+      type: CollectionTypeEnum.folder,
       name: '',
       children: [],
       showOptions: true,
       selectionType: null,
       canAddChild: true,
+      fileCount: 0,
+      folderCount: 0,
     });
     item.canAddChild = false;
   }
