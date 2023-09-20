@@ -9,6 +9,7 @@ export const mockCollectionService: CollectionService = {
   sendErrorAsNull() {},
   sendErrorAsTrue() {},
   sendUpdatedRootCollection() {},
+  errorStatus: null,
   duplicateNameError$: new BehaviorSubject<InputNameErrorType>({ error: null }),
   updatedRootCollection$: new Subject<Collection[]>(),
 };

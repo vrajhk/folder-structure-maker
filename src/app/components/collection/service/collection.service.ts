@@ -14,15 +14,18 @@ export class CollectionService {
     error: null,
   });
   updatedRootCollection$ = new Subject<Collection[]>();
+  errorStatus: null | true = null;
 
   // sends error as true for reflecting to input component
   sendErrorAsTrue() {
-    this.duplicateNameError$.next({ error: true });
+    this.errorStatus = true;
+    this.duplicateNameError$.next({ error: this.errorStatus });
   }
 
   // sends error as null to input component
   sendErrorAsNull() {
-    this.duplicateNameError$.next({ error: null });
+    this.errorStatus = null;
+    this.duplicateNameError$.next({ error: this.errorStatus });
   }
 
   // sends updated Collection Data to Layout component on adding a new Root folder

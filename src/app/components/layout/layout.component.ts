@@ -15,5 +15,5 @@ export class LayoutComponent {
     );
   }
   collectionData: Collection[] = [];
-  parent!: Collection; // parent===null represents "root" folder
+  parent!: Collection;
 }
