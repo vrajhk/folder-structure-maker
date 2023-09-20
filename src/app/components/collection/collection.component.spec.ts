@@ -1,114 +1,31 @@
-import { ComponentFixture, TestBed, flush } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollectionComponent } from './collection.component';
-import { provideMockStore } from '@ngrx/store/testing';
-import { DebugElement } from '@angular/core';
 import {
   Collection,
   CollectionTypeEnum,
 } from 'src/app/models/collection.model';
 import { CollectionService } from './service/collection.service';
+import { mockCollectionService } from 'src/app/mock-data/mock-collection.service';
+import {
+  dummyFile,
+  dummyFolder,
+  mockFolder,
+} from 'src/app/mock-data/mock-folder-file-data';
 
 describe('CollectionComponent', () => {
   let component: CollectionComponent;
   let fixture: ComponentFixture<CollectionComponent>;
-  let el: DebugElement;
-  let mockFolder: Collection = {
-    type: CollectionTypeEnum.folder,
-    name: 'Folder 1',
-    children: [
-      {
-        type: CollectionTypeEnum.folder,
-        name: 'Folder 1.1',
-        children: [
-          {
-            type: CollectionTypeEnum.folder,
-            name: 'Folder 1.1.1',
-            children: [
-              {
-                type: CollectionTypeEnum.folder,
-                name: 'Folder 1.1.1.1',
-                children: [],
-                canAddChild: true,
-                showOptions: false,
-                selectionType: null,
-                minimizeChildren: false,
-                folderCount: 0,
-                fileCount: 0,
-              },
-            ],
-            canAddChild: true,
-            showOptions: false,
-            selectionType: null,
-            minimizeChildren: false,
-            folderCount: 1,
-            fileCount: 0,
-          },
-          {
-            type: CollectionTypeEnum.folder,
-            name: 'Folder 1.2',
-            children: [],
-            canAddChild: true,
-            showOptions: false,
-            selectionType: null,
-            minimizeChildren: false,
-            folderCount: 0,
-            fileCount: 0,
-          },
-        ],
-        canAddChild: true,
-        showOptions: false,
-        selectionType: null,
-        minimizeChildren: false,
-        folderCount: 2,
-        fileCount: 0,
-      },
-      {
-        type: CollectionTypeEnum.file,
-        name: 'File 1.2',
-      },
-    ],
-    canAddChild: true,
-    showOptions: false,
-    selectionType: null,
-    minimizeChildren: false,
-    folderCount: 1,
-    fileCount: 1,
-  };
-  const dummyFolder: Collection = {
-    type: CollectionTypeEnum.folder,
-    name: '',
-    children: [],
-    showOptions: true,
-    selectionType: CollectionTypeEnum.folder,
-    canAddChild: true,
-    minimizeChildren: false,
-    fileCount: 0,
-    folderCount: 0,
-  };
-
-  const dummyFile: Collection = {
-    type: CollectionTypeEnum.file,
-    name: '',
-    selectionType: CollectionTypeEnum.file,
-  };
-  let collectionServiceStub: Partial<CollectionService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CollectionComponent],
       providers: [
-        provideMockStore(),
-        { provide: CollectionService, useValue: collectionServiceStub },
+        { provide: CollectionService, useValue: mockCollectionService },
       ],
     });
     fixture = TestBed.createComponent(CollectionComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
     fixture.detectChanges();
-    collectionServiceStub = {
-      sendErrorAsTrue: () => {},
-      sendErrorAsNull: () => {},
-    };
   });
 
   it('should create', () => {
@@ -143,26 +60,35 @@ describe('CollectionComponent', () => {
     let parent = mockFolder?.children?.at(0) as Collection;
     const folderCountBeforeSubmit = parent.folderCount as number;
     const fileCountBeforeSubmit = parent.fileCount as number;
+    spyOn(mockCollectionService, 'sendErrorAsTrue');
+    spyOn(mockCollectionService, 'sendErrorAsNull');
 
     // if same folder/file name exists; then function must immediately return; Hence, parent.folderCount and parent.fileCOunt should remain unchanged
     component.onUserSubmittedForm('Folder 1.2', parent, dummyFolder);
+    expect(mockCollectionService.sendErrorAsTrue).toHaveBeenCalled();
+    expect(mockCollectionService.sendErrorAsNull).toHaveBeenCalledTimes(0);
     expect(parent.folderCount).toEqual(folderCountBeforeSubmit);
     expect(parent.fileCount).toEqual(fileCountBeforeSubmit);
 
     // else increment folderCount/fileCount of it's parent
     component.onUserSubmittedForm('New Folder', parent, dummyFolder);
     expect(parent.folderCount).toEqual(folderCountBeforeSubmit + 1);
+    expect(dummyFolder.name).toBe('New Folder');
     component.onUserSubmittedForm('File 5', parent, dummyFile);
     expect(parent.fileCount).toEqual(fileCountBeforeSubmit + 1);
+    expect(dummyFile.name).toBe('File 5');
+    expect(mockCollectionService.sendErrorAsNull).toHaveBeenCalledTimes(2);
   });
 
   it('should remove the added dummy child on cancelling the input form', () => {
     component.onAddChild(mockFolder);
     const folderLengthAfterAddingChild = mockFolder.children?.length as number;
+    spyOn(mockCollectionService, 'sendErrorAsNull');
     component.onFormCancelled(mockFolder);
     expect(mockFolder.children?.length as number).toEqual(
       folderLengthAfterAddingChild - 1
     );
+    expect(mockCollectionService.sendErrorAsNull).toHaveBeenCalledTimes(1);
   });
 
   it('should remove clicked child item from its parent', () => {
