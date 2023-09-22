@@ -34,7 +34,7 @@ export class FileFolderInputComponent {
     this.createFolderFileForm = this.fb.group({
       name: ['', [Validators.required, this.spaceValidator]],
     });
-    this.subscription = this.collectionService.sendDuplicateNameError.subscribe(
+    this.subscription = this.collectionService.duplicateNameError$.subscribe(
       (errorResponse) => {
         this.duplicateNameError = errorResponse.error;
       }
