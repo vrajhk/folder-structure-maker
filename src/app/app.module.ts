@@ -8,7 +8,7 @@ import { AddRootFolderComponent } from './components/add-root-folder/add-root-fo
 import { CollectionComponent } from './components/collection/collection.component';
 import { FileFolderInputComponent } from './components/file-folder-input/file-folder-input.component';
 import { LayoutComponent } from './components/layout/layout.component';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +17,12 @@ import { LayoutComponent } from './components/layout/layout.component';
     AddRootFolderComponent,
     LayoutComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

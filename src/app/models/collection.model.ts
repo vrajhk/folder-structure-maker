@@ -1,7 +1,8 @@
 export interface Collection {
+  _id: string;
   type: CollectionType;
-  name: string;
-  children?: Collection[];
+  value: string;
+  children: Collection[];
   canAddChild?: boolean;
   showOptions?: boolean;
   selectionType?: CollectionType | null;
@@ -10,11 +11,16 @@ export interface Collection {
   fileCount?: number;
 }
 export const enum CollectionTypeEnum {
-  folder = 'Folder',
-  file = 'File',
+  folder = 'folder',
+  file = 'file',
 }
 export type CollectionType =
   | CollectionTypeEnum.folder
   | CollectionTypeEnum.file;
-// | 'unset'
-// | null;
+
+export interface ApiResponse {
+  _id: string;
+  value: string;
+  type: CollectionType;
+  children: ApiResponse[];
+}

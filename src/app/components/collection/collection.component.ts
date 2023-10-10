@@ -33,7 +33,7 @@ export class CollectionComponent {
   onUserSubmittedForm(name: string, parent: Collection, item: Collection) {
     if (
       parent?.children?.find(
-        (el) => el.name === name && el.type === item.selectionType
+        (el) => el.value === name && el.type === item.selectionType
       )
     ) {
       // notifies input component
@@ -43,7 +43,7 @@ export class CollectionComponent {
     // notifies input component
     this.collectionService.sendErrorAsNull();
     item.showOptions = false;
-    item.name = name;
+    item.value = name;
     item.selectionType && (item.type = item.selectionType);
     if (item.type === CollectionTypeEnum.folder) {
       item.minimizeChildren = false;
@@ -69,8 +69,9 @@ export class CollectionComponent {
     item.minimizeChildren = false;
     // else; push dummy child for showing file-folder select option and later apply necessary changes through "onUserSubmittedForm()"
     item.children?.push({
+      _id: '',
       type: CollectionTypeEnum.folder,
-      name: '',
+      value: '',
       children: [],
       showOptions: true,
       selectionType: null,

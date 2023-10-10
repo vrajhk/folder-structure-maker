@@ -19,14 +19,15 @@ export class AddRootFolderComponent {
 
   // checks if file name already exists and sends error to input component; else adds new empty folder to the data array
   onUserSubmittedForm(inputFolderName: string): void {
-    if (this.rootCollection?.find((data) => data.name === inputFolderName)) {
+    if (this.rootCollection?.find((data) => data.value === inputFolderName)) {
       this.collectionService.sendErrorAsTrue();
       return;
     }
     this.collectionService.sendErrorAsNull();
     this.rootCollection?.push({
+      _id: '',
       type: CollectionTypeEnum.folder,
-      name: inputFolderName,
+      value: inputFolderName,
       children: [],
       canAddChild: true,
       showOptions: false,
