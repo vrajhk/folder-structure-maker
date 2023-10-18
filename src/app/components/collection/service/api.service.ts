@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ApiService {
-  baseUrl = 'https://folder-structure-api.onrender.com';
+  private baseUrl = 'https://folder-structure-api.onrender.com';
   constructor(private httpClient: HttpClient) {}
 
   getData() {

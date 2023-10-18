@@ -4,6 +4,7 @@ import {
   CollectionTypeEnum,
 } from 'src/app/models/collection.model';
 import { CollectionService } from '../collection/service/collection.service';
+import { ApiService } from '../collection/service/api.service';
 
 @Component({
   selector: 'app-add-root-folder',
@@ -11,7 +12,10 @@ import { CollectionService } from '../collection/service/collection.service';
   styleUrls: ['./add-root-folder.component.scss'],
 })
 export class AddRootFolderComponent {
-  constructor(private collectionService: CollectionService) {}
+  constructor(
+    private collectionService: CollectionService,
+    private apiService: ApiService
+  ) {}
 
   folderType = CollectionTypeEnum.folder;
   isAdd = false; // to show/hide file-folder input
@@ -24,19 +28,21 @@ export class AddRootFolderComponent {
       return;
     }
     this.collectionService.sendErrorAsNull();
-    this.rootCollection?.push({
-      _id: '',
-      type: CollectionTypeEnum.folder,
-      value: inputFolderName,
-      children: [],
-      canAddChild: true,
-      showOptions: false,
-      selectionType: null,
-      minimizeChildren: false,
-      folderCount: 0,
-      fileCount: 0,
+    this.apiService.addToRoot({ value: inputFolderName }).subscribe((data) => {
+      this.collectionService.sendUpdatedRootCollection(data);
     });
-    this.collectionService.sendUpdatedRootCollection(this.rootCollection);
+    // this.rootCollection?.push({
+    //   _id: '',
+    //   type: CollectionTypeEnum.folder,
+    //   value: inputFolderName,
+    //   children: [],
+    //   canAddChild: true,
+    //   showOptions: false,
+    //   selectionType: null,
+    //   minimizeChildren: false,
+    //   folderCount: 0,
+    //   fileCount: 0,
+    // });
     this.isAdd = false;
   }
 
