@@ -13,10 +13,3 @@ export const enum CollectionTypeEnum {
 export type CollectionType =
   | CollectionTypeEnum.folder
   | CollectionTypeEnum.file;
-
-export interface ApiResponse {
-  _id: string;
-  value: string;
-  type: CollectionType;
-  children: ApiResponse[];
-}
