@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Collection, CollectionType } from 'src/app/models/collection.model';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -7,19 +9,26 @@ export class ApiService {
   private baseUrl = 'https://folder-structure-api.onrender.com';
   constructor(private httpClient: HttpClient) {}
 
-  getData() {
+  getCollectionData() {
     return this.httpClient.get(this.baseUrl);
   }
 
-  addToRoot(folder: { value: string }) {
-    return this.httpClient.post(`${this.baseUrl}/initialize-root`, folder);
+  addFolderToRoot(folder: { value: string }): Observable<Collection[]> {
+    return this.httpClient.post<Collection[]>(
+      `${this.baseUrl}/initialize-root`,
+      folder
+    );
   }
 
-  addFolderFile(body: {
+  addFolderOrFile(body: {
     value: string;
-    type: 'folder' | 'file';
-    parent: string;
-  }) {
-    return this.httpClient.post(this.baseUrl, body);
+    type?: CollectionType;
+    parent?: string;
+  }): Observable<Collection[]> {
+    return this.httpClient.post<Collection[]>(this.baseUrl, body);
+  }
+
+  deleteFolderOrFile(_id: string): Observable<Collection[]> {
+    return this.httpClient.delete<Collection[]>(`${this.baseUrl}/${_id}`);
   }
 }

@@ -1,4 +1,6 @@
-<app-add-root-folder></app-add-root-folder>
+<app-add-root-folder
+  (foldersDataEvent)="collectionData = $event"
+></app-add-root-folder>
 <app-collection
   [collectionData]="collectionData"
   [parent]="parent"

@@ -24,16 +24,6 @@ describe('FileFolderInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check if the "duplicateNameError" is set as per response received from Behavior subject of collectionService', () => {
-    // BehaviorSubject must return correct error as provided in next()
-    component.duplicateNameError = null;
-    mockCollectionService.duplicateNameError$.subscribe((errorResponse) => {
-      component.duplicateNameError = errorResponse.error;
-    });
-    mockCollectionService.duplicateNameError$.next({ error: true });
-    expect(component.duplicateNameError).toBeTrue();
-  });
-
   it('should handle input on submit', () => {
     // when the input name is invalid, return making that input as touched and value to empty string
     component.createFolderFileForm.setValue({ name: ' ' });

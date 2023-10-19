@@ -16,13 +16,11 @@ export class LayoutComponent {
     private apiService: ApiService
   ) {}
   ngOnInit() {
-    this.apiService.getData().subscribe((response: any) => {
-      console.log(response);
+    this.apiService.getCollectionData().subscribe((response: any) => {
       this.collectionData = response;
-      console.log(this.collectionData);
     });
-    // this.collectionService.updatedRootCollection$.subscribe(
-    //   (rootCollection) => (this.collectionData = rootCollection)
-    // );
+    this.collectionService.updatedRootCollection$.subscribe(
+      (rootCollection) => (this.collectionData = rootCollection)
+    );
   }
 }

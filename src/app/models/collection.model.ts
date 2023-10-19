@@ -1,14 +1,10 @@
 export interface Collection {
-  _id: string;
-  type: CollectionType;
+  _id?: string;
+  type?: CollectionType;
   value: string;
-  children: Collection[];
+  children?: Collection[];
   canAddChild?: boolean;
   showOptions?: boolean;
-  selectionType?: CollectionType | null;
-  minimizeChildren?: boolean;
-  folderCount?: number;
-  fileCount?: number;
 }
 export const enum CollectionTypeEnum {
   folder = 'folder',
