@@ -9,19 +9,20 @@ import { ApiService } from '../collection/service/api.service';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
+  collectionData: Collection[] = [];
+  parent!: Collection;
   constructor(
     private collectionService: CollectionService,
     private apiService: ApiService
   ) {}
   ngOnInit() {
-    this.apiService.getData().subscribe((response) => {
+    this.apiService.getData().subscribe((response: any) => {
       console.log(response);
-      this.collectionData;
+      this.collectionData = response;
+      console.log(this.collectionData);
     });
-    this.collectionService.updatedRootCollection$.subscribe(
-      (rootCollection) => (this.collectionData = rootCollection)
-    );
+    // this.collectionService.updatedRootCollection$.subscribe(
+    //   (rootCollection) => (this.collectionData = rootCollection)
+    // );
   }
-  collectionData: Collection[] = [];
-  parent!: Collection;
 }
