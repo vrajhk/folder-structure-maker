@@ -5,21 +5,12 @@
         class="file-folder-selection"
         *ngIf="item.showOptions; else displayContent"
       >
-        <ng-container *ngIf="item.selectionType; else displayOptions">
+        <ng-container *ngIf="item.type; else displayOptions">
           <app-file-folder-input
-            [inputType]="item.selectionType"
+            [inputType]="item.type"
             (onSubmitEvent)="onUserSubmittedForm($event, parent, item)"
             (onCancelEvent)="onFormCancelled(parent)"
           ></app-file-folder-input>
-          <div class="icon-with-tooltip">
-            <img
-              class="file-folder-selection-icons-size back"
-              (click)="takeBackAfterSelection(item)"
-              src="assets/back-icon.png"
-              alt="back button"
-            />
-            <ng-template [ngTemplateOutlet]="backTooltipTemplate"></ng-template>
-          </div>
         </ng-container>
 
         <ng-template #displayOptions>
@@ -28,7 +19,7 @@
               <img
                 src="assets/folder-icon.png"
                 class="file-folder-selection-icons-size folder"
-                (click)="triggerInput(item, folderType)"
+                (click)="item.type = folderType"
                 alt="Folder Icon"
               />
               <span class="file-folder-tooltip folder-tooltip">Add Folder</span>
@@ -37,21 +28,10 @@
               <img
                 class="file-folder-selection-icons-size file"
                 src="assets/file-icon.png"
-                (click)="triggerInput(item, fileType)"
+                (click)="item.type = fileType"
                 alt="File Icon"
               />
               <span class="file-folder-tooltip file-tooltip">Add File</span>
-            </div>
-            <div class="icon-with-tooltip">
-              <img
-                class="file-folder-selection-icons-size back"
-                (click)="onFormCancelled(parent)"
-                src="assets/back-icon.png"
-                alt="back button"
-              />
-              <ng-template
-                [ngTemplateOutlet]="backTooltipTemplate"
-              ></ng-template>
             </div>
           </div>
         </ng-template>
@@ -67,7 +47,7 @@
         </ng-template>
 
         <p>
-          {{ item.value }}
+          {{ item.value || "Loading..." }}
           <span class="actions">
             <button
               class="folder-dark"
@@ -80,59 +60,20 @@
               [ngClass]="
                 item.type === folderType ? 'folder-light' : 'file-dark'
               "
-              (click)="onRemove(index, item.type)"
+              (click)="onRemove(item?._id)"
             >
               -
             </button>
-            <img
-              class="show-hide-child-icon"
-              *ngIf="
-                item.type === folderType &&
-                item.children?.length &&
-                !item.minimizeChildren
-              "
-              src="assets/below.png"
-              alt="show-hide-child"
-              (click)="minimizeChildren(item)"
-            />
           </span>
         </p>
-
-        <div
-          class="child-info"
-          *ngIf="item.type === folderType && item.minimizeChildren"
-        >
-          <img
-            src="assets/next.svg"
-            alt="show-hide-child"
-            class="show-hide-child-icon"
-            (click)="minimizeChildren(item)"
-          />
-          <div class="child-info-content">
-            <div class="folder">
-              <img src="assets/folder-icon.png" alt="folder-icon" />
-              <span>{{ item.folderCount }}</span>
-            </div>
-            <div class="file">
-              <img src="assets/file-icon.png" alt="file-icon" />
-              <span>{{ item.fileCount }}</span>
-            </div>
-          </div>
-        </div>
       </ng-template>
     </div>
 
-    <ng-container *ngIf="!item.minimizeChildren">
-      <app-collection
-        *ngIf="item.children && item?.children?.length"
-        [collectionData]="item.children"
-        [parent]="item"
-        class="children"
-      ></app-collection>
-    </ng-container>
+    <app-collection
+      *ngIf="item.children && item?.children?.length"
+      [collectionData]="item.children"
+      [parent]="item"
+      class="children"
+    ></app-collection>
   </div>
 </ng-container>
-
-<ng-template #backTooltipTemplate>
-  <span class="back-tooltip">Go Back</span>
-</ng-template>

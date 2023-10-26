@@ -15,22 +15,6 @@ describe('CollectionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return correct initial BehaviorSubject', () => {
-    service.duplicateNameError$.subscribe((response) => {
-      expect(response).toEqual({ error: null });
-    });
-  });
-
-  it('should correctly implement sendErrorAsTrue method', () => {
-    service.sendErrorAsTrue();
-    expect(service.errorStatus).toBe(true);
-  });
-
-  it('should correctly implement sendErrorAsNull method', () => {
-    service.sendErrorAsNull();
-    expect(service.errorStatus).toBe(null);
-  });
-
   it('should send updated root collection data', fakeAsync(() => {
     const rootCollection = data;
     service.updatedRootCollection$.subscribe((updatedData) => {
